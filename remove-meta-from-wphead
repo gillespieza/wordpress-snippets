@@ -11,8 +11,9 @@ function apc_remove_header_info() {
 	remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 ); // removes the REST API from HTTP headers.
 	remove_action( 'wp_head', 'rsd_link' ); // EditURI link/Weblog Client Link.
 	remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );    // start link.
-	remove_action( 'wp_head', 'wlwmanifest_link' );               // Windows Live Writer Manifest.
-	remove_action( 'wp_head', 'wp_generator' );                   // WordPress Version - security risk.
+	remove_action( 'wp_head', 'wlwmanifest_link' ); // Windows Live Writer Manifest.
+	remove_action( 'wp_head', 'wp_generator' ); // WordPress Version - security risk.
+	remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 ); // removes api.w.org relation link.
 	remove_action( 'wp_head', 'wp_shortlink_wp_head' ); // remove shortlinks.
 };
 

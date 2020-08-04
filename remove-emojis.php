@@ -31,7 +31,7 @@ add_action( 'init', 'apc_disable_emojis' );
 
 
 /**
- * Filter funcion to remove the emoji plugin from TinyMCE.
+ * Filter function to remove the emoji plugin from TinyMCE.
  *
  * This function is called in the filter function apc_disable_emojis().
  *

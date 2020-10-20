@@ -1,0 +1,240 @@
+add_action( 'after_setup_theme', 'sbs_theme_setup' );
+if ( ! function_exists( 'sbs_theme_setup' ) ) { // this bit adds support for child themes
+	/**
+	 * -----------------------------------------------------------------
+	 * SALAMANDER BOOTSTRAP THEME SETUP.
+	 *
+	 * Set up theme defaults and registers support for various WordPress features.
+	 *
+	 * Add support for the following:
+	 *   - custom-units
+	 *   - customize-selective-refresh-widgets
+	 *   - editor-color-palette
+	 *   - editor-styles
+	 *   - html5
+	 *   - nav menus
+	 *   - post thumbnails
+	 *   - title tag
+	 *
+	 * Deliberately NOT adding support for:
+	 *   - automatic-feed-links
+	 *   - core-block-patterns
+	 *   - custom backgrounds
+	 *   - custom-header
+	 *   - custom-logo
+	 *   - dark-editor-style
+	 *   - disable-custom-colors
+	 *   - disable-custom-font-sizes
+	 *   - disable-custom-gradients
+	 *   - editor-font-sizes
+	 *   - editor-gradient-presets
+	 *   - post-formats
+	 *   - starter-content
+	 *
+	 * @since Salamander Bootstrap 1.0
+	 * @link https://developer.wordpress.org/reference/functions/add_theme_support/
+	 * -----------------------------------------------------------------
+	 */
+	function sbs_theme_setup() {
+
+		/**
+		 * Make Salamander Bootstrap available for translation.
+		 * Translations can be added to the /languages/ directory.
+		 *
+		 * @link https://developer.wordpress.org/reference/functions/load_theme_textdomain/
+		 *
+		 * @param string $domain Unique identifier for retrieving translated strings.
+		 * @param string $path = false Path to the directory containing the .mo file.
+		 * @return bool True when textdomain is successfully loaded, false otherwise.
+		 */
+		load_theme_textdomain( 'theatre4youth-bootstrap-2020', get_template_directory() . '/languages' );
+
+		/*
+		 * Let WordPress manage the document title.
+		 * By adding theme support, we declare that this theme does not use a
+		 * hard-coded <title> tag in the document head, and expect WordPress to
+		 * provide it for us.
+		 */
+		add_theme_support( 'title-tag' );
+
+		/*
+		 * Enable support for Post Thumbnails on posts and pages.
+		 *
+		 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
+		 */
+		add_theme_support( 'post-thumbnails' );
+		// todo
+		// set_post_thumbnail_size( 1200, 9999 );
+		set_post_thumbnail_size( 150, 150, true ); // Set standard thumbnail size.
+		add_image_size( 'feature-carousel', 1060, 350, true );
+		add_image_size( 'theatre-carousel', 1030, 350, true );
+		add_image_size( 'theatre-archive', 212, 142, true );
+		add_image_size( 'production_archive', 212, 158, true );
+		add_image_size( 'theatre_logo_thumbnail', 100, 100, false );
+		add_image_size( 'production_thumb', 320, 235, true );
+
+		/*
+		 * Switch default core markup for search form, comment form, and comments
+		 * to output valid HTML5.
+		 */
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+				'style',
+				'script',
+			)
+		);
+
+		/* This theme uses wp_nav_menu() in the two locations. */
+		register_nav_menus(
+			array(
+				'primary' => __( 'Main (Top) Navigation Menu', 'theatre4youth-bootstrap-2020' ),
+				'account' => __( 'Account Navigation Menu', 'theatre4youth-bootstrap-2020' ),
+				'footer'  => __( 'Secondary menu in the footer', 'theatre4youth-bootstrap-2020' ),
+			)
+		);
+
+		/* Enable support for selective-refresh-widgets. */
+		add_theme_support( 'customize-selective-refresh-widgets' );
+
+		/*
+		 * This theme stylestyles the visual editor to resemble the theme style,
+		 * specifically font, colors, icons, and column width.
+		 */
+		$editor_fonts = '//fonts.googleapis.com/css?family=Nunito:400,400italic,600,600italic,700,700italic|Neucha';
+		add_editor_style( array( 'editor-style.css', $editor_fonts, get_stylesheet_directory_uri() . '/css/font-casual.css' ) );
+
+		/*
+		 * Set content-width
+		 */
+		global $content_width;
+		if ( ! isset( $content_width ) ) {
+			$content_width = 1140;
+		}
+
+		/*
+		 * Add support for full and wide align images.
+		 * Some blocks such as the image block have the possibility to define a “wide”
+		 * or “full” alignment by adding the corresponding classname to the block’s wrapper
+		 * ( alignwide or alignfull ).
+		 *
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'align-wide' );
+
+		/*
+		 * Add support for responsive embeds.
+		 * The embed blocks automatically apply styles to embedded content to reflect
+		 * the aspect ratio of content that is embedded in an iFrame. To make the
+		 * content resize and keep its aspect ratio, the <body> element needs the
+		 * wp-embed-responsive class. This is not set by default, and requires the
+		 * theme to opt in to the responsive-embeds feature
+		 *
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'responsive-embeds' );
+
+		/*
+		 * The block editor allows themes to opt-in to slightly more opinionated styles for the front end.
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'wp-block-styles' );
+
+		/*
+		 * Allow the use of custom css units
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'custom-units', 'rem', 'vw', 'vh', 'em' );
+
+		/*
+		 * Some blocks like paragraph and headings support customizing the line height.
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'custom-line-height' );
+
+		/*
+		 * This flag will make sure users are only able to choose colors from the
+		 * editor-color-palette the theme provided or from the editor default colors
+		 * if the theme did not provide one.
+		 * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		 */
+		add_theme_support( 'disable-custom-colors' );
+
+
+		/*
+		* Different blocks have the possibility of customizing colors.
+		* The block editor provides a default palette, but a theme can overwrite it
+		* and provide its own.
+		* @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/
+		*/
+		add_theme_support(
+			'editor-color-palette',
+			array(
+				array(
+					'name'  => __( 'red', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'red',
+					'color' => '#c4161c',
+				),
+				array(
+					'name'  => __( 'orange', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'fet-facilitator',
+					'color' => '#f5821f',
+				),
+				array(
+					'name'  => __( 'yellow', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'yellow',
+					'color' => '#ffd400',
+				),
+				array(
+					'name'  => __( 'light green', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'green',
+					'color' => '#6cbe45',
+				),
+				array(
+					'name'  => __( 'dark green', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'dark-green',
+					'color' => '#00a651',
+				),
+				array(
+					'name'  => __( 'cyan', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'cyan',
+					'color' => '#00a1e4',
+				),
+				array(
+					'name'  => __( 'purple', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'purple',
+					'color' => '#872890',
+				),
+				array(
+					'name'  => __( 'pink', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'pink',
+					'color' => '#FF1493',
+				),
+				array(
+					'name'  => __( 'white', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'white',
+					'color' => '#ffffff',
+				),
+				array(
+					'name'  => __( 'black', 'theatre4youth-bootstrap-2020' ),
+					'slug'  => 'black',
+					'color' => '#000000',
+				),
+			)
+		);
+
+		/*
+		 * Adds `async` and `defer` support for scripts registered or enqueued
+		 * by the theme.
+		 */
+		$loader = new TwentyTwenty_Script_Loader();
+		add_filter( 'script_loader_tag', array( $loader, 'filter_script_loader_tag' ), 10, 2 );
+
+	} // end function
+} // end if function exists
+

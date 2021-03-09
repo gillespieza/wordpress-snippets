@@ -1,44 +1,85 @@
 <?php
 /**
- * Remove emojis from front and back-end, including from TinyMCE
- */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-/**
- * Disable emojis
+ * Cleanup and optimise WordPress.
  *
- * @return void
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
  */
-function apc_disable_emojis() {
-	// Let's remove a bunch of actions & filters.
-	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-	remove_action( 'wp_print_styles', 'print_emoji_styles' );
-	remove_action( 'admin_print_styles', 'print_emoji_styles' );
-	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
-	// We also take care of Tiny MCE.
-	add_filter( 'tiny_mce_plugins', 'apc_disable_emojis_tinymce' );
-	add_filter( 'wp_resource_hints', 'apc_disable_emojis_remove_dns_prefetch', 10, 2 );
+// Security Check: Prevent this file being executed outside the WordPress context.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'You are not allowed to call this page directly.' );
 }
 
-// Let's do this at the init.
-add_action( 'init', 'apc_disable_emojis' );
+/*
+ * -----------------------------------------------------------------------------
+ * TABLE OF CONTENTS:
+ * - Disable Emojis: apway_disable_emojis()
+ * - Remove Emojis from TinyMCE: apway_disable_emojis_tinymce()
+ * - Disable emoji DNS prefetch: apway_disable_emojis_remove_dns_prefetch()
+ 
+ * - Remove generator version number from head: apway_remove_generator_version()
+ * - Remove inline gallery CSS
+ * - Remove DIVI Project CPT
+ * - Disable Admin Bar
+ * - Remove Divi's viewport declaration
+ * - Fix empty paragraph tags
+ * -----------------------------------------------------------------------------
+ */
 
 
 /**
- * Filter function to remove the emoji plugin from TinyMCE.
+ * Removes emojis from front-end, back-end, RSS feeds, embeds, emails, etc.
  *
- * This function is called in the filter function apc_disable_emojis().
+ * Removes the emoji support injected into various places, for supporting
+ * _Japanese_ characters and emojis.
  *
- * @param array $plugins The array of current plugins.
- * @return array Difference betwen the two arrays.
+ * __Note:__ This function is added to the
+ * {@link https://developer.wordpress.org/reference/hooks/init/ `init` hook},
+ * which fires after WordPress has finished loading but before any headers are sent.
+ *
+ * @uses apway_disable_emojis_tinymce()
+ * @uses apway_disable_emojis_remove_dns_prefetch()
+ * @return void
  */
-function apc_disable_emojis_tinymce( $plugins ) {
+function apway_disable_emojis() {
+	// Prevent Emoji from loading on the front-end.
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
+	// Remove from admin area also.
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+	// Remove from RSS feeds also.
+	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+
+	// Remove from Embeds.
+	remove_filter( 'embed_head', 'print_emoji_detection_script' );
+
+	// Remove from emails.
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+
+	// Disable from TinyMCE editor. Currently disabled in block editor by default.
+	add_filter( 'tiny_mce_plugins', 'apway_disable_emojis_tinymce' );
+
+	// Don't bother prefetching DNS for this.
+	add_filter( 'wp_resource_hints', 'apway_disable_emojis_remove_dns_prefetch', 10, 2 );
+
+	// Finally, prevent character conversion (otherwise emojis still work if available on user's device).
+	add_filter( 'option_use_smilies', '__return_false' );
+}
+add_action( 'init', 'apway_disable_emojis' );
+
+
+/**
+ * Removes the emoji plugin from TinyMCE.
+ *
+ * @used-by apway_disable_emojis()
+ * @param array $plugins The array of current plugins.
+ * @return array         The difference betwen the two arrays.
+ */
+function apway_disable_emojis_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
 		return array_diff( $plugins, array( 'wpemoji' ) );
 	} else {
@@ -48,15 +89,14 @@ function apc_disable_emojis_tinymce( $plugins ) {
 
 
 /**
- * Removing emoji CDN hostname from DNS prefetching hints.
+ * Removes the emoji CDN hostname from DNS prefetching hints.
  *
- * This function is called in the filter function apc_disable_emojis().
- *
- * @param array  $urls URLs to print for resource hints.
+ * @used-by apway_disable_emojis()
+ * @param array  $urls          URLs to print for resource hints.
  * @param string $relation_type The relation type the URLs are printed for.
- * @return array Difference betwen the two arrays.
+ * @return array $urls          The difference betwen the two arrays.
  */
-function apc_disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
+function apway_disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 	if ( 'dns-prefetch' === $relation_type ) {
 		/** This filter is documented in wp-includes/formatting.php */
 		$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' ); // phpcs:ignore.

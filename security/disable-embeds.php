@@ -1,4 +1,6 @@
 /**
+ * Disable oEmbeds.
+ *
  * Since WP 4.4 oEmbed was merged into WP core. This feature allows you to embed
  * YouTube videos, tweets. It creates an additional HTTP request with wp-embed.min.js
  * which loads on every page. It also allows others to embed your post on their blog

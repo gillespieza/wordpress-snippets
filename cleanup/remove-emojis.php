@@ -1,33 +1,5 @@
 <?php
 /**
- * Cleanup and optimise WordPress.
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- */
-
-// Security Check: Prevent this file being executed outside the WordPress context.
-if ( ! defined( 'ABSPATH' ) ) {
-	die( 'You are not allowed to call this page directly.' );
-}
-
-/*
- * -----------------------------------------------------------------------------
- * TABLE OF CONTENTS:
- * - Disable Emojis: apway_disable_emojis()
- * - Remove Emojis from TinyMCE: apway_disable_emojis_tinymce()
- * - Disable emoji DNS prefetch: apway_disable_emojis_remove_dns_prefetch()
- 
- * - Remove generator version number from head: apway_remove_generator_version()
- * - Remove inline gallery CSS
- * - Remove DIVI Project CPT
- * - Disable Admin Bar
- * - Remove Divi's viewport declaration
- * - Fix empty paragraph tags
- * -----------------------------------------------------------------------------
- */
-
-
-/**
  * Removes emojis from front-end, back-end, RSS feeds, embeds, emails, etc.
  *
  * Removes the emoji support injected into various places, for supporting

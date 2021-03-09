@@ -15,20 +15,21 @@ A collection of code snippets for functions.php for WordPress
   - Remove the WP generator tag
 - Divi
   - Remove Project CPT
+  - Enable Divi Builder everywhere automatically
 - Performance
   - Dequeue the Dashicons on the front end if Admin Toolbar is not in use.
   - Add DNS Prefetching and Preconnecting Resource Hints to the <head>
   - Remove query strings from resources.
   - Speed up Google Fonts
 - Security
-  - Disable oEmbeds 
+  - Disable oEmbeds
   - Serve 404 to referrers on the current Blacklist
 - Theme Snippets
   - Filter the except length to 20 words
   - Filter the "read more" excerpt string link to the post
   - Change the `Read More` text after the trimmed excerpt
   - Javascript detection
-  - Remove inline gallery CSS 
+  - Remove inline gallery CSS
   - Add SVG to the allowed mime types in the Media Library
   - Fix empty paragraph tags
   - Add theme support for loads of things, including adding async/defer to javascript

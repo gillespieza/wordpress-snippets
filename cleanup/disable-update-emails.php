@@ -23,5 +23,9 @@ function itc_stop_update_emails( $send, $type, $core_update, $result ) {
 	return true;
 }
 add_filter( 'auto_core_update_send_email', 'itc_stop_update_emails', 10, 4 ); // after core updates.
-add_filter( 'auto_plugin_update_send_email', 'itc_stop_update_emails' ); // after plugin updates.
-add_filter( 'auto_theme_update_send_email', 'itc_stop_update_emails' ); // after theme updates.
+
+// Disable auto-update email notifications for plugins.
+add_filter( 'auto_plugin_update_send_email', '__return_false' );
+ 
+// Disable auto-update email notifications for themes.
+add_filter( 'auto_theme_update_send_email', '__return_false' );

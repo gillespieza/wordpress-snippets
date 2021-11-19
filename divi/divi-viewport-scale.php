@@ -5,7 +5,7 @@ function swm_remove_divi_viewport_meta() {
 	remove_action( 'wp_head', 'et_add_viewport_meta' );
 }
 // Call 'remove_divi_actions' during WP initialization.
-add_action( 'init', 'swm_remove_divi_viewport_meta' );
+add_action( 'after_setup_theme', 'swm_remove_divi_viewport_meta' );
 
 // Replace with new meta.
 function swm_et_new_viewport_meta() {

@@ -13,7 +13,7 @@ function cli_set_expire() {
 	?>
 	<script type="text/javascript">
 
-		CLI_ACCEPT_COOKIE_EXPIRE = 30;
+		CLI_ACCEPT_COOKIE_EXPIRE = 182;
 		
 	</script>
 	<?php

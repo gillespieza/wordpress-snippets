@@ -41,5 +41,5 @@ A collection of code snippets for functions.php for WordPress
   - Add SVG to the allowed mime types in the Media Library
   - Fix empty paragraph tags
   - Add theme support for loads of things, including adding async/defer to javascript
- - ### WooCommerce
+- ### WooCommerce
   - Utility function to check if WooCommerce is active

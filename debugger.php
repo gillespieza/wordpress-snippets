@@ -38,15 +38,16 @@ if ( ! function_exists( 'print_r_pre' ) ) {
 	 * @param mixed $argument Whatever you want printed out.
 	 */
 	function print_r_pre( $argument ) {
-		echo "<pre style='color: steelblue; background: #eee; border: 1px dashed #bbb; padding: 10px'>";
-		print_r( $argument ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r.
-		echo '</pre>';
+		echo '<pre style="color: steelblue; background: #eee; border: 1px dashed #bbb; padding: 10px">' . PHP_EOL;
+		print_r( $argument );
+		echo PHP_EOL . '</pre>' . PHP_EOL;
 	}
 }
 
+
 if ( ! function_exists( 'print_filters_for' ) ) {
 	/**
-	 * Pretty prints a list of all the functions/filters applied to a filter.
+	 * Pretty prints a list of all the functions/filters for a specified hook.
 	 *
 	 * For example `print_filters_for( 'the_content' );`
 	 *
@@ -57,9 +58,9 @@ if ( ! function_exists( 'print_filters_for' ) ) {
 		if ( empty( $hook ) || ! isset( $wp_filter[ $hook ] ) ) {
 			return;
 		}
-		print '<pre>';
-		print_r( $wp_filter[ $hook ] ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r.
-		print '</pre>';
+		echo '<pre style="color: steelblue; background: #eee; border: 1px dashed #bbb; padding: 10px">' . PHP_EOL;
+		print_r( $wp_filter[ $hook ] );
+		echo PHP_EOL . '</pre>' . PHP_EOL;
 	}
 }
 

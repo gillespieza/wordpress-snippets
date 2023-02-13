@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'print_r_hidden' ) ) {
 	/**
+	 * Prints the contents of the argument and hides it within HTML comments.
+	 *
 	 * Wraps the print_r function in a comment tag so it's not visible except in the HTML source.
 	 *
 	 * Useful if you need to debug on a live site - you'll have to view the HTML
@@ -21,9 +23,10 @@ if ( ! function_exists( 'print_r_hidden' ) ) {
 	 * @param mixed $argument Whatever you want printed out.
 	 */
 	function print_r_hidden( $argument ) {
-		echo '<!-- FOOBAR GREP ';
-		print_r( $argument ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r.
-		echo ' -->';
+		echo '<!-- FOOBAR GREP -->' . PHP_EOL;
+		echo '<!--' . PHP_EOL;
+		print_r( $argument );
+		echo PHP_EOL . '-->' . PHP_EOL;
 	}
 }
 

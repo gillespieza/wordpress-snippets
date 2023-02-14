@@ -44,3 +44,11 @@ log = {
             console.debug(JSON.parse(JSON.stringify(msg)));
     }
 }
+
+
+// EXAMPLE USAGE
+	log.info('console info');
+	log.warn('console warn');
+	log.success('console success');
+	log.error('console error');
+	log.debug('console debug');
